@@ -531,6 +531,10 @@ function EnterGame.postShowCreatureBoost()
 end
 
 function EnterGame.show()
+    if not enterGame then
+        return
+    end
+
     if g_game.isOnline() or CharacterList.isVisible() then -- fix login quickly error (http post)
         return
     end
