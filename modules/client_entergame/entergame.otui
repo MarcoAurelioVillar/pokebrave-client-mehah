@@ -217,7 +217,7 @@ EnterGameWindow
     !tooltip: tr('Open charlist automatically when starting client')
     anchors.left: parent.left
     anchors.right: parent.right
-    anchors.top: prev.bottom
+    anchors.top: stayLoggedBox.bottom
     margin-top: 10
 
   QtCheckBox
