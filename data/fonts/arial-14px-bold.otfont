@@ -1,0 +1,7 @@
+Font
+  name: arial-14px-bold
+  texture: arial-14px-bold
+  height: 16
+  glyph-size: 20 20
+  spacing: 1 1
+  space-width: 2

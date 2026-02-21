@@ -1,6 +1,8 @@
 EnterGameWindow < MainWindow
   !text: tr('Enter Game')
   size: 236 316
+  anchors.horizontalCenter: parent.horizontalCenter
+  margin-top: 150
 
 
 EnterGameButton < Button
@@ -26,7 +28,7 @@ EnterGameWindow
   &authenticatorHeight: 44
   &stayLoggedBoxEnabled: false
   &stayLoggedBoxHeight: 24
-  size: 280 302
+  size: 280 200
   @onEnter: EnterGame.doLogin()
 
   Label
@@ -127,6 +129,9 @@ EnterGameWindow
 
   MenuLabel
     id: serverLabel
+    visible: false
+    height: 0
+    margin-top: 0
     !text: tr('Server')
     anchors.left: prev.left
     anchors.top: prev.bottom
@@ -135,6 +140,9 @@ EnterGameWindow
 
   ServerListButton
     id: serverListButton
+    visible: false
+    height: 0
+    margin-top: 0
     !tooltip: tr('Server list')
     anchors.right: parent.right
     anchors.top: serverLabel.bottom
@@ -143,6 +151,9 @@ EnterGameWindow
 
   TextEdit
     id: serverHostTextEdit
+    visible: false
+    height: 0
+    margin-top: 0
     !tooltip: tr('Make sure that your client uses\nthe correct game client version')
     anchors.left: parent.left
     anchors.right: serverListButton.left
@@ -152,6 +163,9 @@ EnterGameWindow
 
   MenuLabel
     id: clientLabel
+    visible: false
+    height: 0
+    margin-top: 0
     !text: tr('Client Version')
     anchors.left: parent.left
     anchors.top: serverHostTextEdit.bottom
@@ -161,6 +175,9 @@ EnterGameWindow
 
   ComboBox
     id: clientComboBox
+    visible: false
+    height: 0
+    margin-top: 0
     anchors.left: parent.left
     anchors.right: parent.horizontalCenter
     anchors.top: clientLabel.bottom
@@ -173,6 +190,9 @@ EnterGameWindow
 
   MenuLabel
     id: portLabel
+    visible: false
+    height: 0
+    margin-top: 0
     !text: tr('Port')
     anchors.left: serverPortTextEdit.left
     anchors.top: serverHostTextEdit.bottom
@@ -181,6 +201,9 @@ EnterGameWindow
 
   TextEdit
     id: serverPortTextEdit
+    visible: false
+    height: 0
+    margin-top: 0
     text: 7171
     anchors.right: parent.right
     anchors.left: parent.horizontalCenter

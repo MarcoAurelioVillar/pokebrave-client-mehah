@@ -1,0 +1,9 @@
+Module
+  name: game_market
+  description: Gerencia compra e venda do servidor.
+  author: Ryukiimaru
+  website: https://www.facebook.com/systemyart
+  sandboxed: true
+  scripts: [ market ]
+  @onLoad: init()
+  @onUnload: terminate()

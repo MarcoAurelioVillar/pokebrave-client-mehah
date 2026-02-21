@@ -1,0 +1,462 @@
+BuyNowWindow < UIWindow
+  id: buyNowWindow
+  anchors.centerIn: parent
+  !text: tr('Buy Now')
+  size: 200 100
+  text-offset: 0 5
+  padding: 3
+  image-source: images/window
+  visible: false
+  @onEscape: show()
+
+  SpinBox
+    id: spinBox
+    anchors.left: parent.left
+    anchors.top: parent.top
+    width: 1
+    height: 1
+    phantom: true
+    margin-top: 2
+    focusable: true
+  Item
+    id: item
+    anchors.left: parent.left
+    anchors.top: parent.top
+    margin-top: 4
+    margin-left: 4
+    focusable: false
+    virtual: true
+  HorizontalScrollBar
+    id: countScrollBar
+    anchors.left: item.right
+    anchors.right: parent.right
+    anchors.top: prev.top
+    margin-left: 10
+    margin-top: 15
+    focusable: false
+  UIWidget
+    id: price
+    height: 20
+    anchors.left: countScrollBar.left
+    anchors.right: countScrollBar.right
+    anchors.top: countScrollBar.bottom
+    margin-left: 5
+    margin-top: 7
+    focusable: false
+  Button
+    id: buttonOk
+    !text: tr('Ok')
+    height: 20
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    margin-bottom: 6
+    margin-left: 6
+    focusable: false
+  Button
+    id: buttonCancel
+    !text: tr('Cancel')
+    height: 20
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-bottom: 6
+    margin-right: 6
+    focusable: false
+
+PageButton < Button
+  size: 20 20
+  anchors.verticalCenter: parent.verticalCenter
+  anchors.left: parent.left
+  @onClick: modules.game_market.togglePage(self:getId())
+  $!first:
+    anchors.left: prev.right
+    margin-left: 2
+PageWidget < UIWidget
+  id: pageWidget
+  size: 188 30
+  anchors.bottom: parent.bottom
+  anchors.left: parent.left
+  margin-left: 15
+  margin-bottom: 5
+
+  PageButton
+    id: first
+    text: <<
+  PageButton
+    id: prev
+    text: <
+  UIWidget
+    id: text
+    size: 100 30
+    anchors.top: parent.top
+    anchors.left: prev.right
+    margin-left: 2
+  PageButton
+    id: next
+    text: >
+  PageButton
+    id: last
+    text: >>
+UIWidgetToMarketItem < UIItem
+  height: 30
+  anchors.top: parent.top
+  anchors.left: parent.left
+  border-width: 1
+  border-color: #2F3239
+  virtual: true
+  phantom: true
+MarketSellItem < UIWidget
+  height: 30
+  border-width: 1
+
+  UIWidgetToMarketItem
+    id: time
+    width: 40
+  UIWidgetToMarketItem
+    id: item
+    width: 35
+    anchors.left: time.right
+    phantom: false
+  UIWidgetToMarketItem
+    id: name
+    width: 130
+    anchors.left: item.right
+  UIWidgetToMarketItem
+    id: amount
+    width: 80
+    anchors.left: name.right
+  UIWidgetToMarketItem
+    id: price
+    width: 90
+    anchors.left: amount.right
+    text-align: left
+    text-offset: 3 0
+  UIWidgetToMarketItem
+    id: timer
+    width: 100
+    anchors.left: price.right
+  UIWidgetToMarketItem
+    id: cancel
+    width: 30
+    anchors.left: timer.right
+    Button
+      id: button
+      size: 26 26
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin: 2
+      text: x
+      color: red
+      @onClick: modules.game_market.cancelSellItem(self:getParent():getParent())
+MarketItem < UIWidget
+  height: 30
+  border-width: 1
+
+  UIWidgetToMarketItem
+    id: time
+    width: 40
+  UIWidgetToMarketItem
+    id: item
+    width: 35
+    anchors.left: time.right
+    phantom: false
+  UIWidgetToMarketItem
+    id: name
+    width: 130
+    anchors.left: item.right
+  UIWidgetToMarketItem
+    id: seller
+    width: 130
+    anchors.left: name.right
+  UIWidgetToMarketItem
+    id: amount
+    width: 80
+    anchors.left: seller.right
+  UIWidgetToMarketItem
+    id: price
+    width: 90
+    anchors.left: amount.right
+    text-align: left
+    text-offset: 3 0
+
+MarketTab < UIWidget
+  height: 30
+  anchors.top: comboBox.bottom
+  anchors.left: parent.left
+  margin-top: 10
+  border-width: 1
+  border-color: #2F3239
+
+SellPanel < UIWidget
+  id: sellPanel
+  anchors.fill: parent
+  anchors.top: buyTabButton.bottom
+  visible: false
+
+  UIWidget
+    id: sell_itemname
+    size: 100 20
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-left: 5
+  Item
+    id: sell_item
+    size: 36 36
+    anchors.top: sell_itemname.bottom
+    anchors.left: sell_itemname.left
+    margin-top: 5
+  HorizontalScrollBar
+    id: sell_amount
+    size: 203 15
+    anchors.top: sell_item.top
+    anchors.left: sell_item.right
+    margin-top: 9
+    margin-left: 5
+    enabled: false
+  UIWidget
+    id: sell_pricelabel
+    anchors.top: sell_item.bottom
+    anchors.left: sell_item.left
+    !text: tr("Price per unit")
+    margin-top: 5
+  TextEdit
+    id: sell_priceedit
+    size: 120 20
+    anchors.top: sell_pricelabel.bottom
+    anchors.left: sell_item.left
+    margin-top: 5
+    enabled: false
+    @onTextChange: modules.game_market.onSellPriceChange()
+  ComboBox
+    id: sell_timebox
+    anchors.top: sell_priceedit.top
+    anchors.bottom: sell_priceedit.bottom
+    anchors.left: sell_priceedit.right
+    margin-left: 5
+  Button
+    id: sell_selectitem
+    size: 19 19
+    anchors.top: sell_timebox.top
+    anchors.left: sell_timebox.right
+    margin-left: 10
+    text: o
+    !tooltip: tr("Select Item")
+    @onClick: modules.game_market.selectItemToSell()
+  UIWidget
+    id: sell_value
+    height: 60
+    anchors.top: parent.top
+    anchors.left: sell_amount.right
+    anchors.right: parent.right
+    margin-left: 10
+    margin-right: 10
+    text-align: topLeft
+  Button
+    id: sell_confirm
+    size: 60 20
+    anchors.top: sell_timebox.top
+    anchors.right: sell_value.right
+    margin-right: 0
+    !text: tr("Confirm")
+    @onClick: modules.game_market.onConfirmSellItem()
+  MarketTab
+    id: time
+    width: 40
+    anchors.top: sell_priceedit.bottom
+    margin-top: 0
+    margin-left: 15
+    text: #
+  MarketTab
+    id: item
+    width: 35
+    anchors.top: time.top
+    anchors.left: time.right
+    margin-top: 0
+    !text: tr("Item")
+  MarketTab
+    id: name
+    width: 130
+    anchors.top: time.top
+    anchors.left: item.right
+    margin-top: 0
+    !text: tr("Name")
+  MarketTab
+    id: amount
+    width: 80
+    anchors.top: time.top
+    anchors.left: name.right
+    margin-top: 0
+    !text: tr("Amount")
+  MarketTab
+    id: price
+    width: 90
+    anchors.top: time.top
+    anchors.left: amount.right
+    margin-top: 0
+    !text: tr("Price")
+  MarketTab
+    id: timer
+    width: 100
+    anchors.top: time.top
+    anchors.left: price.right
+    margin-top: 0
+    !text: tr("Time")
+  MarketTab
+    id: cancel
+    width: 30
+    anchors.top: time.top
+    anchors.left: timer.right
+    margin-top: 0
+    !text: tr("-")
+  UIScrollArea
+    id: items
+    layout: verticalBox
+    anchors.top: time.bottom
+    anchors.bottom: parent.bottom
+    anchors.left: time.left
+    anchors.right: cancel.right
+    vertical-scrollbar: scrollbar
+    margin-bottom: 5
+  VerticalScrollBar
+    id: scrollbar
+    anchors.top: items.top
+    anchors.left: cancel.right
+    anchors.bottom: items.bottom
+    margin-left: 2
+BuyPanel < UIWidget
+  id: buyPanel
+  anchors.fill: parent
+  anchors.top: buyTabButton.bottom
+
+  ComboBox
+    id: comboBox
+    width: 140
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 5
+    margin-left: 5
+  Button
+    id: search
+    size: 22 22
+    anchors.top: comboBox.top
+    anchors.right: parent.right
+    margin-right: 5
+    !tooltip: tr("Search")
+    @onClick: modules.game_market.getBuyItems()
+  TextEdit
+    id: searchEdit
+    width: 150
+    anchors.top: search.top
+    anchors.right: search.left
+    margin-right: 3
+    @onTextChange: modules.game_market.onTextChange()
+  MarketTab
+    id: time
+    width: 40
+    margin-left: 15
+    text: #
+  MarketTab
+    id: item
+    width: 35
+    anchors.left: time.right
+    !text: tr("Item")
+  MarketTab
+    id: name
+    width: 130
+    anchors.left: item.right
+    !text: tr("Name")
+  MarketTab
+    id: seller
+    width: 130
+    anchors.left: name.right
+    !text: tr("Seller")
+  MarketTab
+    id: amount
+    width: 80
+    anchors.left: seller.right
+    !text: tr("Amount")
+  MarketTab
+    id: price
+    width: 90
+    anchors.left: amount.right
+    !text: tr("Price")
+  UIScrollArea
+    id: items
+    layout: verticalBox
+    anchors.top: time.bottom
+    anchors.bottom: pageWidget.top
+    anchors.left: time.left
+    anchors.right: price.right
+    vertical-scrollbar: scrollbar
+    margin-bottom: 5
+  VerticalScrollBar
+    id: scrollbar
+    anchors.top: items.top
+    anchors.left: price.right
+    anchors.bottom: items.bottom
+    margin-left: 2
+  PageWidget
+  Button
+    id: buyButton
+    size: 60 25
+    anchors.bottom: pageWidget.bottom
+    anchors.right: parent.right
+    margin-right: 20
+    !text: tr("Buy")
+    @onClick: modules.game_market.buyItem()
+  Button
+    id: refreshButton
+    size: 60 25
+    anchors.bottom: pageWidget.bottom
+    anchors.right: buyButton.left
+    margin-right: 15
+    !text: tr("Refresh")
+    @onClick: modules.game_market.getBuyItems()
+BuyTabButton < Button
+  id: buyTabButton
+  size: 35 35
+  anchors.top: separator.bottom
+  anchors.left: parent.left
+  margin-top: 5
+  margin-left: 5
+  text: C
+  !tooltip: tr("Comprar")
+  @onClick: modules.game_market.showBuyPanel()
+SellTabButton < Button
+  id: sellTabButton
+  size: 35 35
+  anchors.top: buyTabButton.top
+  anchors.left: buyTabButton.right
+  margin-left: 10
+  text: V
+  !tooltip: tr("Vender")
+  @onClick: modules.game_market.showSellPanel()
+MarketSeparator < HorizontalSeparator
+  id: separator
+  height: 3
+  anchors.top: parent.top
+  anchors.left: parent.left
+  anchors.right: parent.right
+  margin-top: 20
+  margin-left: 20
+  margin-right: 20
+MarketClose < Button
+  id: close
+  size: 30 30
+  anchors.top: parent.top
+  anchors.right: parent.right
+  @onClick: modules.game_market.hide()
+UIWindow
+  id: market
+  size: 635 340
+  anchors.centerIn: parent
+  !text: tr("Market")
+  text-offset: 0 5
+  padding: 3
+  image-source: images/window
+
+  MarketClose
+  MarketSeparator
+  BuyTabButton
+  SellTabButton
+  BuyPanel
+  SellPanel
