@@ -122,11 +122,87 @@ EnterGameWindow
       margin-top: 8
 
   HorizontalSeparator
-    id: mainSeparator
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.top: prev.bottom
     margin-top: 8
+
+  MenuLabel
+    id: serverLabel
+    visible: false
+    height: 0
+    margin-top: 0
+    !text: tr('Server')
+    anchors.left: prev.left
+    anchors.top: prev.bottom
+    text-auto-resize: true
+
+  ServerListButton
+    id: serverListButton
+    visible: false
+    height: 0
+    margin-top: 0
+    !tooltip: tr('Server list')
+    anchors.right: parent.right
+    anchors.top: serverLabel.bottom
+    @onClick: EnterGame.showServerList()
+
+  TextEdit
+    id: serverHostTextEdit
+    visible: false
+    height: 0
+    margin-top: 0
+    !tooltip: tr('Make sure that your client uses\nthe correct game client version')
+    anchors.left: parent.left
+    anchors.right: serverListButton.left
+    anchors.top: serverLabel.bottom
+    margin-right: 4
+
+  MenuLabel
+    id: clientLabel
+    visible: false
+    height: 0
+    margin-top: 0
+    !text: tr('Client Version')
+    anchors.left: parent.left
+    anchors.top: serverHostTextEdit.bottom
+    text-auto-resize: true
+    margin-right: 10
+
+  ComboBox
+    id: clientComboBox
+    visible: false
+    height: 0
+    margin-top: 0
+    anchors.left: parent.left
+    anchors.right: parent.horizontalCenter
+    anchors.top: clientLabel.bottom
+    margin-right: 3
+    width: 90
+    menu-scroll: true
+    menu-height: 125
+    menu-scroll-step: 25
+
+  MenuLabel
+    id: portLabel
+    visible: false
+    height: 0
+    margin-top: 0
+    !text: tr('Port')
+    anchors.left: serverPortTextEdit.left
+    anchors.top: serverHostTextEdit.bottom
+    text-auto-resize: true
+
+  TextEdit
+    id: serverPortTextEdit
+    visible: false
+    height: 0
+    margin-top: 0
+    text: 7171
+    anchors.right: parent.right
+    anchors.left: parent.horizontalCenter
+    anchors.top: clientComboBox.top
+    margin-left: 3
 
   QtCheckBox
     id: autoLoginBox
@@ -135,7 +211,7 @@ EnterGameWindow
     !tooltip: tr('Open charlist automatically when starting client')
     anchors.left: parent.left
     anchors.right: parent.right
-    anchors.top: mainSeparator.bottom
+    anchors.top: prev.bottom
     margin-top: 10
 
   QtCheckBox
@@ -188,41 +264,3 @@ EnterGameWindow
     margin-top: 5
     color: green
     text-auto-resize: true
-
-  MenuLabel
-    id: serverLabel
-    visible: false
-    height: 0
-
-  ServerListButton
-    id: serverListButton
-    visible: false
-    height: 0
-    width: 0
-
-  TextEdit
-    id: serverHostTextEdit
-    visible: false
-    height: 0
-
-  MenuLabel
-    id: clientLabel
-    visible: false
-    height: 0
-
-  ComboBox
-    id: clientComboBox
-    visible: false
-    height: 0
-
-  MenuLabel
-    id: portLabel
-    visible: false
-    height: 0
-
-  TextEdit
-    id: serverPortTextEdit
-    visible: false
-    height: 0
-    text: 7171
-
